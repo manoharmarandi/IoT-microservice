@@ -1,0 +1,89 @@
+name: CI/CD
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+env:
+  CONTAINER_REGISTRY: your-container-registry
+  AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
+  EDGE_DEVICE_1_ID: your-edge-device-1-id
+  EDGE_DEVICE_1_HOSTNAME: your-edge-device-1-hostname
+  EDGE_DEVICE_1_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_1_SAS_TOKEN }}
+  EDGE_DEVICE_2_ID: your-edge-device-2-id
+  EDGE_DEVICE_2_HOSTNAME: your-edge-device-2-hostname
+  EDGE_DEVICE_2_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_2_SAS_TOKEN }}
+  EDGE_DEVICE_3_ID: your-edge-device-3-id
+  EDGE_DEVICE_3_HOSTNAME: your-edge-device-3-hostname
+  EDGE_DEVICE_3_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_3_SAS_TOKEN }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Build and push Temperature Data Collector Microservice
+        uses: docker/build-push-action@v2
+        with:
+          context: temperature-data-collector
+          push: true
+          tags: ${{ github.sha }}
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          repository: temperature-data-collector
+
+      - name: Build and push Graph Generator Microservice
+        uses: docker/build-push-action@v2
+        with:
+          context: graph-generator
+          push: true
+          tags: ${{ github.sha }}
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          repository: graph-generator
+
+      - name: Build and push GUI Microservice
+        uses: docker/build-push-action@v2
+        with:
+          context: gui
+          push: true
+          tags: ${{ github.sha }}
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          repository: gui
+
+      - name: Deploy Temperature Data Collector Microservice
+        uses: Azure/iot-deploy@v1
+        with:
+          login: ${{ secrets.AZURE_SUBSCRIPTION }}
+          edge-device-id: ${{ env.EDGE_DEVICE_1_ID }}
+          edge-device-hostname: ${{ env.EDGE_DEVICE_1_HOSTNAME }}
+          edge-device-authentication-type: 'sasToken'
+          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_1_SAS_TOKEN }}
+          deployment-manifest-file: deployment-temperature-data-collector.json
+
+      - name: Deploy Graph Generator Microservice
+        uses: Azure/iot-deploy@v1
+        with:
+          login: ${{ secrets.AZURE_SUBSCRIPTION }}
+          edge-device-id: ${{ env.EDGE_DEVICE_2_ID }}
+          edge-device-hostname: ${{ env.EDGE_DEVICE_2_HOSTNAME }}
+          edge-device-authentication-type: 'sasToken'
+          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_2_SAS_TOKEN }}
+          deployment-manifest-file: deployment-graph-generator.json
+
+      - name: Deploy GUI Microservice
+        uses: Azure/iot-deploy@v1
+        with:
+          login: ${{ secrets.AZURE_SUBSCRIPTION }}
+          edge-device-id: ${{ env.EDGE_DEVICE_3_ID }}
+          edge-device-hostname: ${{ env.EDGE_DEVICE_3_HOSTNAME }}
+          edge-device-authentication-type: 'sasToken'
+          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_3_SAS_TOKEN }}
+          deployment-manifest-file: deployment-gui.json

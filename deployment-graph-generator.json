@@ -1,0 +1,36 @@
+{
+    "modulesContent": {
+      "$edgeAgent": {
+        "properties.desired": {
+          "schemaVersion": "1.0",
+          "runtime": {
+            "type": "docker",
+            "settings": {
+              "minDockerVersion": "v1.25",
+              "loggingOptions": "",
+              "registryCredentials": {
+                "your-container-registry": {
+                  "username": "your-registry-username",
+                  "password": "your-registry-password",
+                  "address": "your-container-registry.azurecr.io"
+                }
+              }
+            }
+          },
+          "modules": {
+            "graphGenerator": {
+              "version": "1.0",
+              "type": "docker",
+              "status": "running",
+              "restartPolicy": "always",
+              "settings": {
+                "image": "your-container-registry/graph-generator:latest",
+                "createOptions": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
