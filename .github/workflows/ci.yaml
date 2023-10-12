@@ -60,7 +60,7 @@ jobs:
           repository: gui
 
       - name: Deploy Temperature Data Collector Microservice
-        uses: Azure/iot-deploy@v1
+        uses: Azure/iot-edge-deploy@v1
         with:
           login: ${{ secrets.AZURE_SUBSCRIPTION }}
           edge-device-id: ${{ env.EDGE_DEVICE_1_ID }}
@@ -70,7 +70,7 @@ jobs:
           deployment-manifest-file: deployment-temperature-data-collector.json
 
       - name: Deploy Graph Generator Microservice
-        uses: Azure/iot-deploy@v1
+        uses: Azure/iot-edge-deploy@v1
         with:
           login: ${{ secrets.AZURE_SUBSCRIPTION }}
           edge-device-id: ${{ env.EDGE_DEVICE_2_ID }}
@@ -80,7 +80,7 @@ jobs:
           deployment-manifest-file: deployment-graph-generator.json
 
       - name: Deploy GUI Microservice
-        uses: Azure/iot-deploy@v1
+        uses: Azure/iot-edge-deploy@v1
         with:
           login: ${{ secrets.AZURE_SUBSCRIPTION }}
           edge-device-id: ${{ env.EDGE_DEVICE_3_ID }}
