@@ -1,21 +1,22 @@
 name: CI/CD
 
-# on:
-#   push:
-#     branches:
-#       - main
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 env:
-  CONTAINER_REGISTRY: your-container-registry
+  CONTAINER_REGISTRY: kitscontainer.azurecr.io
   AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
-  EDGE_DEVICE_1_ID: your-edge-device-1-id
-  EDGE_DEVICE_1_HOSTNAME: your-edge-device-1-hostname
+  EDGE_DEVICE_1_ID: microservice-edge-device-1
+  EDGE_DEVICE_1_HOSTNAME: microservice-edge-device-1-hostname
   EDGE_DEVICE_1_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_1_SAS_TOKEN }}
-  EDGE_DEVICE_2_ID: your-edge-device-2-id
-  EDGE_DEVICE_2_HOSTNAME: your-edge-device-2-hostname
+  EDGE_DEVICE_2_ID: microservice-edge-device-2
+  EDGE_DEVICE_2_HOSTNAME: microservice-edge-device-2-hostname
   EDGE_DEVICE_2_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_2_SAS_TOKEN }}
-  EDGE_DEVICE_3_ID: your-edge-device-3-id
-  EDGE_DEVICE_3_HOSTNAME: your-edge-device-3-hostname
+  EDGE_DEVICE_3_ID: microservice-edge-device-3-id
+  EDGE_DEVICE_3_HOSTNAME: microservice-edge-device-3-hostname
   EDGE_DEVICE_3_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_3_SAS_TOKEN }}
 
 jobs:

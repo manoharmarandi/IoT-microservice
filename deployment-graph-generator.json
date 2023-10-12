@@ -10,9 +10,9 @@
               "loggingOptions": "",
               "registryCredentials": {
                 "your-container-registry": {
-                  "username": "your-registry-username",
-                  "password": "your-registry-password",
-                  "address": "your-container-registry.azurecr.io"
+                  "username": "KITScontainer",
+                  "password": "nVjmfujk/sMLhOIUfG1pa7B1zcLGGZ0olPeKVSlXve+ACRChnU2b",
+                  "address": "kitscontainer.azurecr.io"
                 }
               }
             }
@@ -24,7 +24,7 @@
               "status": "running",
               "restartPolicy": "always",
               "settings": {
-                "image": "your-container-registry/graph-generator:latest",
+                "image": "KITScontaine/graph-generator:latest",
                 "createOptions": {}
               }
             }
