@@ -60,31 +60,16 @@ jobs:
           repository: gui
 
       - name: Deploy Temperature Data Collector Microservice
-        uses: Azure/iot-edge-deploy@v1
-        with:
-          login: ${{ secrets.AZURE_SUBSCRIPTION }}
-          edge-device-id: ${{ env.EDGE_DEVICE_1_ID }}
-          edge-device-hostname: ${{ env.EDGE_DEVICE_1_HOSTNAME }}
-          edge-device-authentication-type: 'sasToken'
-          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_1_SAS_TOKEN }}
-          deployment-manifest-file: deployment-temperature-data-collector.json
+        run: |
+          az extension add --name azure-iot
+          az iot edge deployment update --hub-name IOT-microservice --content deployment-temperature-data-collector.json --target-condition "deviceId='microservice-edge-device-1'"
 
       - name: Deploy Graph Generator Microservice
-        uses: Azure/iot-edge-deploy@v1
-        with:
-          login: ${{ secrets.AZURE_SUBSCRIPTION }}
-          edge-device-id: ${{ env.EDGE_DEVICE_2_ID }}
-          edge-device-hostname: ${{ env.EDGE_DEVICE_2_HOSTNAME }}
-          edge-device-authentication-type: 'sasToken'
-          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_2_SAS_TOKEN }}
-          deployment-manifest-file: deployment-graph-generator.json
+        run: |
+          az extension add --name azure-iot
+          az iot edge deployment update --hub-name IOT-microservice --content deployment-graph-generator.json --target-condition "deviceId='microservice-edge-device-2'"
 
       - name: Deploy GUI Microservice
-        uses: Azure/iot-edge-deploy@v1
-        with:
-          login: ${{ secrets.AZURE_SUBSCRIPTION }}
-          edge-device-id: ${{ env.EDGE_DEVICE_3_ID }}
-          edge-device-hostname: ${{ env.EDGE_DEVICE_3_HOSTNAME }}
-          edge-device-authentication-type: 'sasToken'
-          edge-device-sas-token: ${{ secrets.EDGE_DEVICE_3_SAS_TOKEN }}
-          deployment-manifest-file: deployment-gui.json
+        run: |
+          az extension add --name azure-iot
+          az iot edge deployment update --hub-name IOT-microservice --content deployment-gui.json --target-condition "deviceId='microservice-edge-device-3'"

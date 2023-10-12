@@ -1,36 +1,47 @@
 {
-    "modulesContent": {
-      "$edgeAgent": {
-        "properties.desired": {
-          "schemaVersion": "1.0",
-          "runtime": {
-            "type": "docker",
-            "settings": {
-              "minDockerVersion": "v1.25",
-              "loggingOptions": "",
-              "registryCredentials": {
-                "your-container-registry": {
-                  "username": "KITScontainer",
-                  "password": "nVjmfujk/sMLhOIUfG1pa7B1zcLGGZ0olPeKVSlXve+ACRChnU2b",
-                  "address": "kitscontainer.azurecr.io"
-                }
-              }
-            }
-          },
-          "modules": {
-            "graphGenerator": {
-              "version": "1.0",
-              "type": "docker",
-              "status": "running",
-              "restartPolicy": "always",
-              "settings": {
-                "image": "KITScontaine/graph-generator:latest",
-                "createOptions": {}
+  "modulesContent": {
+    "$edgeAgent": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "runtime": {
+          "settings": {
+            "minDockerVersion": "v1.25",
+            "loggingOptions": "",
+            "registryCredentials": {
+              "your-container-registry": {
+                "username": "KITScontainer",
+                "password": "nVjmfujk/sMLhOIUfG1pa7B1zcLGGZ0olPeKVSlXve+ACRChnU2b",
+                "address": "kitscontainer.azurecr.io"
               }
             }
           }
         }
       }
+    },
+    "$edgeHub": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "routes": {
+          "route": "FROM /messages/* INTO $upstream"
+        },
+        "storeAndForwardConfiguration": {
+          "timeToLiveSecs": 7200
+        }
+      }
+    },
+    "graphGenerator": {
+      "properties.desired": {
+        "schemaVersion": "1.0",
+        "runtime": {
+          "settings": {
+            "image": "KITScontainer/graph-generator:latest",
+            "createOptions": {}
+          }
+        }
+      }
     }
   }
-  
+}
+
+
+
