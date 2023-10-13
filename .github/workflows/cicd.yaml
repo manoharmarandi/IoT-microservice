@@ -9,6 +9,7 @@ on:
 env:
   CONTAINER_REGISTRY: KITScontainer
   AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
+  ACR_IMAGE_PATH: ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.run_number }}
   EDGE_DEVICE_1_ID: microservice-edge-device-1
   EDGE_DEVICE_1_HOSTNAME: microservice-edge-device-1-hostname
   EDGE_DEVICE_1_SAS_TOKEN: ${{ secrets.EDGE_DEVICE_1_SAS_TOKEN }}
@@ -38,6 +39,11 @@ jobs:
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+      - name: Build backend docker image
+        run: |
+          cd ./Graph Generator Microservice
+          docker build -t ${{env.ACR_IMAGE_PATH}}} -f Dockerfile .
+          docker push ${{env.ACR_IMAGE_PATH}}
 
       - name: Build and push Temperature Data Collector Microservice
         uses: docker/build-push-action@v2
@@ -48,6 +54,7 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: temperature-data-collector
 
+          
       - name: Build and push Graph Generator Microservice
         uses: docker/build-push-action@v2
         with:
