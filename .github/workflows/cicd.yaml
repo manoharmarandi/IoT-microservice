@@ -44,16 +44,16 @@ jobs:
         with:
           context: ./Temperature Data Collector Microservice
           push: true
-          tags: ${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/temperature-data-collector:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
-          # repository: temperature-data-collector
+          repository: temperature-data-collector
 
       - name: Build and push Graph Generator Microservice
         uses: docker/build-push-action@v2
         with:
           context: ./Graph Generator Microservice
           push: true
-          tags: ${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/graph-generator:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: graph-generator
 
@@ -62,7 +62,7 @@ jobs:
         with:
           context: ./GUI Microservice
           push: true
-          tags: ${{ github.sha }}
+          tags: ${{ env.CONTAINER_REGISTRY }}/graph-generator:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: gui
 
