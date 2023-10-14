@@ -70,14 +70,14 @@ jobs:
         with:
           context: ./GUI Microservice
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/graph-generator:${{ github.sha }}
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/gui:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: gui
       - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
+
       - name: Deploy Temperature Data Collector Microservice
         run: |
           az extension add --name azure-iot
