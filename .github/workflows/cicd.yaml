@@ -77,14 +77,14 @@ jobs:
       - name: Deploy Temperature Data Collector Microservice
         run: |
           az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --content deployment-temperature-data-collector.json --target-condition "deviceId='microservice-edge-device-1'"
+          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-temperature-data-collector.json --target-condition "deviceId='microservice-edge-device-1'"
 
       - name: Deploy Graph Generator Microservice
         run: |
           az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --content deployment-graph-generator.json --target-condition "deviceId='microservice-edge-device-2'"
+          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-graph-generator.json --target-condition "deviceId='microservice-edge-device-2'"
 
       - name: Deploy GUI Microservice
         run: |
           az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --content deployment-gui.json --target-condition "deviceId='microservice-edge-device-3'"
+          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-gui.json --target-condition "deviceId='microservice-edge-device-3'"
