@@ -1,23 +1,12 @@
-# Use a Node.js base image
-FROM node:14
+FROM python:3.9-slim
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dependencies
-RUN npm install
-
-# Copy the source code
 COPY . .
 
-# Build the React app
-RUN npm run build
+EXPOSE 5000
 
-# Expose the port
-EXPOSE 3000
-
-# Start the microservice
-CMD [ "npm", "start" ]
+CMD ["python", "app.py"]
