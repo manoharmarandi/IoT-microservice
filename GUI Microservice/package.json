@@ -4,11 +4,15 @@
     "description": "GUI Microservice for Temperature Data Graph",
     "main": "index.js",
     "scripts": {
-      "start": "node index.js"
+      "start": "node index.js",
+      "build": "react-scripts build"
     },
     "dependencies": {
       "react": "^17.0.2",
       "react-dom": "^17.0.2"
+    },
+    "devDependencies": {
+      "react-scripts": "^5.0.0"
     }
   }
   
