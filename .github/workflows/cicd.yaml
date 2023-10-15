@@ -45,6 +45,14 @@ jobs:
       #     cd ./Graph Generator Microservice
       #     docker build -t ${{env.ACR_IMAGE_PATH}}} -f Dockerfile .
       #     # docker push ${{env.ACR_IMAGE_PATH}}
+      - name: Build and push Temperature Data Collector Microservice
+        uses: docker/build-push-action@v2
+        with:
+          context: ./application
+          push: true
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/application:${{ github.sha }}
+          registry: ${{ env.CONTAINER_REGISTRY }}
+          repository: application
 
       - name: Build and push Temperature Data Collector Microservice
         uses: docker/build-push-action@v2
