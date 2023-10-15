@@ -45,7 +45,8 @@ jobs:
       #     cd ./Graph Generator Microservice
       #     docker build -t ${{env.ACR_IMAGE_PATH}}} -f Dockerfile .
       #     # docker push ${{env.ACR_IMAGE_PATH}}
-      - name: Build and push Temperature Data Collector Microservice
+
+      - name: application
         uses: docker/build-push-action@v2
         with:
           context: ./application
@@ -54,49 +55,49 @@ jobs:
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: application
 
-      - name: Build and push Temperature Data Collector Microservice
-        uses: docker/build-push-action@v2
-        with:
-          context: ./Temperature Data Collector Microservice
-          push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.sha }}
-          registry: ${{ env.CONTAINER_REGISTRY }}
-          repository: temperature-data-collector
+      # - name: Build and push Temperature Data Collector Microservice
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./Temperature Data Collector Microservice
+      #     push: true
+      #     tags: ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.sha }}
+      #     registry: ${{ env.CONTAINER_REGISTRY }}
+      #     repository: temperature-data-collector
 
           
-      - name: Build and push Graph Generator Microservice
-        uses: docker/build-push-action@v2
-        with:
-          context: ./Graph Generator Microservice
-          push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/graph-generator:${{ github.sha }}
-          registry: ${{ env.CONTAINER_REGISTRY }}
-          repository: graph-generator
+      # - name: Build and push Graph Generator Microservice
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./Graph Generator Microservice
+      #     push: true
+      #     tags: ${{ secrets.ACR_LOGIN_SERVER }}/graph-generator:${{ github.sha }}
+      #     registry: ${{ env.CONTAINER_REGISTRY }}
+      #     repository: graph-generator
 
-      - name: Build and push GUI Microservice
-        uses: docker/build-push-action@v2
-        with:
-          context: ./GUI Microservice
-          push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/gui:${{ github.sha }}
-          registry: ${{ env.CONTAINER_REGISTRY }}
-          repository: gui
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # - name: Build and push GUI Microservice
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./GUI Microservice
+      #     push: true
+      #     tags: ${{ secrets.ACR_LOGIN_SERVER }}/gui:${{ github.sha }}
+      #     registry: ${{ env.CONTAINER_REGISTRY }}
+      #     repository: gui
+      # - name: Login to Azure
+      #   uses: azure/login@v1
+      #   with:
+      #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy Temperature Data Collector Microservice
-        run: |
-          az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-temperature-data-collector.json --target-condition "deviceId='microservice-edge-device-1'"
+      # - name: Deploy Temperature Data Collector Microservice
+      #   run: |
+      #     az extension add --name azure-iot
+      #     az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-temperature-data-collector.json --target-condition "deviceId='microservice-edge-device-1'"
 
-      - name: Deploy Graph Generator Microservice
-        run: |
-          az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-graph-generator.json --target-condition "deviceId='microservice-edge-device-2'"
+      # - name: Deploy Graph Generator Microservice
+      #   run: |
+      #     az extension add --name azure-iot
+      #     az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-graph-generator.json --target-condition "deviceId='microservice-edge-device-2'"
 
-      - name: Deploy GUI Microservice
-        run: |
-          az extension add --name azure-iot
-          az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-gui.json --target-condition "deviceId='microservice-edge-device-3'"
+      # - name: Deploy GUI Microservice
+      #   run: |
+      #     az extension add --name azure-iot
+      #     az iot edge deployment create --hub-name IOT-microservice --deployment-id my-deployment --content deployment-gui.json --target-condition "deviceId='microservice-edge-device-3'"
