@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Node.js Application</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="chart" width="400" height="200"></canvas>
+  <script>
+    const chart = new Chart(document.getElementById('chart').getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
+          {
+            label: 'Temperature',
+            data: [],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+          {
+            label: 'Humidity',
+            data: [],
+            backgroundColor: 'rgba(192, 75, 192, 0.2)',
+            borderColor: 'rgba(192, 75, 192, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+    });
+
+    function updateChart(temperature, humidity) {
+      chart.data.labels.push(new Date().toLocaleTimeString());
+      chart.data.datasets[0].data.push(temperature);
+      chart.data.datasets[1].data.push(humidity);
+
+      // Limit the number of data points shown on the chart
+      const maxDataPoints = 10;
+      if (chart.data.labels.length > maxDataPoints) {
+        chart.data.labels.shift();
+        chart.data.datasets[0].data.shift();
+        chart.data.datasets[1].data.shift();
+      }
+
+      // Update the chart
+      chart.update();
+    }
+
+    function fetchData() {
+      axios.get('/data')
+        .then(response => {
+          const { temperature, humidity } = response.data;
+          updateChart(temperature, humidity);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }
+
+    // Fetch data every 5 seconds
+    setInterval(fetchData, 5000);
+  </script>
+</body>
+</html>
