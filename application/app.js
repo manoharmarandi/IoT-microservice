@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const { createCanvas } = require('canvas');
 const Chart = require('chart.js');
 
@@ -65,8 +64,8 @@ function updateChart(temperature, humidity) {
 }
 
 // Route to receive data from the IoT device
-app.post('/data', (req, res) => {
-  const { temperature, humidity } = req.body.data;
+app.post('/', (req, res) => {
+  const { temperature, humidity } = req.body;
   updateChart(temperature, humidity);
   res.sendStatus(200);
 });
