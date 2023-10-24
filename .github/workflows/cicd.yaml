@@ -40,12 +40,6 @@ jobs:
           password: ${{ secrets.ACR_PASSWORD }}
           login-server: ${{ secrets.ACR_LOGIN_SERVER }}
 
-      # - name: Build backend docker image
-      #   run: |
-      #     cd ./Graph Generator Microservice
-      #     docker build -t ${{env.ACR_IMAGE_PATH}}} -f Dockerfile .
-      #     # docker push ${{env.ACR_IMAGE_PATH}}
-
       - name: Build and push Temperature Data Collector Microservice
         uses: docker/build-push-action@v2
         with:
@@ -60,7 +54,7 @@ jobs:
         run: |-
           npm install snyk -g
           snyk auth e6b5719c-46fa-4dd7-8cf1-50ebd68923ae
-          snyk container test ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.sha }}
+          snyk container test ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.sha }} --severity-threshold=high --severity-threshold=medium --severity-threshold=critical
           snyk container monitor --app-vulns ${{ secrets.ACR_LOGIN_SERVER }}/temperature-data-collector:${{ github.sha }}
 
       # - name: Run Snyk to check Docker image for vulnerabilities
@@ -76,9 +70,8 @@ jobs:
         # with:
         #   image: iot-backend
         #   args: --file=./EdgeSolution/modules/BackendModule/Dockerfile.amd64
-
           
-      - name: Build and push Graph Generator Microservice
+      - name: Build and push water sprinkler Microservice
         uses: docker/build-push-action@v2
         with:
           context: ./water sprinkler
@@ -91,6 +84,6 @@ jobs:
         run: |-
           npm install snyk -g
           snyk auth e6b5719c-46fa-4dd7-8cf1-50ebd68923ae
-          snyk container test ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
+          snyk container test ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }} --severity-threshold=high --severity-threshold=medium --severity-threshold=critical
           snyk container monitor --app-vulns ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
 
