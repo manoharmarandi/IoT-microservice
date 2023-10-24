@@ -83,7 +83,7 @@ jobs:
         with:
           context: ./water sprinkler
           push: true
-          tags: ${{ secrets.ACR_LOGIN_SERVER }}/water sprinkler:${{ github.sha }}
+          tags: ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: water-sprinkler
 
