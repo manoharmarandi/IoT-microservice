@@ -86,4 +86,11 @@ jobs:
           tags: ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
           registry: ${{ env.CONTAINER_REGISTRY }}
           repository: water-sprinkler
+      - name: snyk test
+        continue-on-error: true
+        run: |-
+          npm install snyk -g
+          snyk auth e6b5719c-46fa-4dd7-8cf1-50ebd68923ae
+          snyk container test ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
+          snyk container monitor --app-vulns ${{ secrets.ACR_LOGIN_SERVER }}/water-sprinkler:${{ github.sha }}
 
